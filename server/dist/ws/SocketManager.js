@@ -1,3 +1,4 @@
+import { WebSocket } from "ws";
 import { generateUUID } from "../utlils/generateUUID.js";
 export class SocketManger {
     constructor() {
@@ -27,7 +28,9 @@ export class SocketManger {
     }
     // Brodcast the message to one client
     brodcastToOne(socket, message) {
-        socket.send(JSON.stringify(message));
+        if (socket.readyState === WebSocket.OPEN) {
+            socket.send(message);
+        }
     }
     // Brodcast the message to everyone
     brodcastToMany(usersToBrodacastTo) {

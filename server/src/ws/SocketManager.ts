@@ -39,7 +39,9 @@ export class SocketManger {
 
   // Brodcast the message to one client
   brodcastToOne(socket: WebSocket, message: string) {
-    socket.send(JSON.stringify(message));
+    if (socket.readyState === WebSocket.OPEN) {
+      socket.send(message);
+    }
   }
 
   // Brodcast the message to everyone
