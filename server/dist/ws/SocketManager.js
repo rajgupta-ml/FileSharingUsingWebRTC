@@ -30,7 +30,9 @@ export class SocketManger {
         socket.send(JSON.stringify(message));
     }
     // Brodcast the message to everyone
-    brodcastToMany(users) { }
+    brodcastToMany(usersToBrodacastTo) {
+        usersToBrodacastTo;
+    }
     // Getter
     getUser() {
         return this.user;

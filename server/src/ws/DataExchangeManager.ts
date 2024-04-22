@@ -1,3 +1,4 @@
+import { WebSocket } from "ws";
 import { SocketManger } from "./SocketManager.js";
 import { userData } from "../types/SocketMangerTypes.js";
 
@@ -8,7 +9,7 @@ export class DataExchangeManager {
     this.socketManager = socket;
   }
 
-  classifyUser(currentUser: userData) {
+  classifyUser(currentUserSocket: WebSocket, currentUser: userData) {
     const users = this.socketManager.getUser();
 
     if (currentUser.task !== "sender") {
@@ -22,6 +23,9 @@ export class DataExchangeManager {
         UUID: userData?.UUID,
       }));
 
-    this.socketManager.brodcastToOne(currentUser.socket, receivers.toString());
+    this.socketManager.brodcastToOne(
+      currentUserSocket,
+      JSON.stringify(receivers),
+    );
   }
 }
