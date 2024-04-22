@@ -1,5 +1,5 @@
 import { WebSocket } from "ws";
-import { userData } from "../types/SocketMangerTypes.js";
+import { userData, usersDataToBroadcast } from "../types/SocketMangerTypes.js";
 import { generateUUID } from "../utlils/generateUUID.js";
 
 export class SocketManger {
@@ -38,10 +38,17 @@ export class SocketManger {
   }
 
   // Brodcast the message to one client
-  private brodcastToOne(socket: WebSocket, message: string) {
+  brodcastToOne(socket: WebSocket, message: string) {
     socket.send(JSON.stringify(message));
   }
 
   // Brodcast the message to everyone
-  private brodcastToMany(users: userData) {}
+  brodcastToMany(usersToBrodacastTo: usersDataToBroadcast) {
+    usersToBrodacastTo;
+  }
+
+  // Getter
+  getUser() {
+    return this.user;
+  }
 }

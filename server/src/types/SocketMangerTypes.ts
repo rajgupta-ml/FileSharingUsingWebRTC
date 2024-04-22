@@ -8,3 +8,8 @@ export interface userData {
   task: string;
   socket: WebSocket;
 }
+
+export interface usersDataToBroadcast {
+  name: string;
+  socket: WebSocket;
+}
