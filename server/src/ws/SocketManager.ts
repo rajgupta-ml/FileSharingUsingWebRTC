@@ -18,7 +18,9 @@ export class SocketManger {
     this.brodcastToOne(socket, `Your UNNIQUE ID:  ${this.UUID}`);
   }
 
-  deleteUser(socket: WebSocket, userId: string) {
+  deleteUser(userId: string) {
+    const socket = this.user.get(userId)?.socket;
+    if (socket === undefined) return;
     if (this.user.has(userId)) {
       this.user.delete(userId);
       socket.close(

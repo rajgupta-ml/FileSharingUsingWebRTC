@@ -11,7 +11,11 @@ export class SocketManger {
         this.user.set(this.UUID, null);
         this.brodcastToOne(socket, `Your UNNIQUE ID:  ${this.UUID}`);
     }
-    deleteUser(socket, userId) {
+    deleteUser(userId) {
+        var _a;
+        const socket = (_a = this.user.get(userId)) === null || _a === void 0 ? void 0 : _a.socket;
+        if (socket === undefined)
+            return;
         if (this.user.has(userId)) {
             this.user.delete(userId);
             socket.close(1000, "You have been successfully disconnected from the the websocket");

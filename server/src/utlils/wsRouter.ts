@@ -2,6 +2,7 @@ import { WebSocket } from "ws";
 import { receiverSelection, userData } from "../types/SocketMangerTypes.js";
 import { SocketManger } from "../ws/SocketManager.js";
 import { DataExchangeManager } from "../ws/DataExchangeManager.js";
+import { disconnectData } from "../types/DataExchangeManagerTypes.js";
 
 export const wsRouter = (
   ws: WebSocket,
@@ -16,7 +17,7 @@ export const wsRouter = (
       DataExchangeManager.classifyUser(message as userData);
       break;
     case "disconnet":
-      SocketManager.deleteUser(ws, (message as userData).UUID);
+      DataExchangeManager.handleDisconnect(message as disconnectData);
       break;
 
     case "selection-done":

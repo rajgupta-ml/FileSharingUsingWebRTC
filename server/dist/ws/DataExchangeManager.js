@@ -30,26 +30,36 @@ export class DataExchangeManager {
         }
         const senderSocket = senderUser.socket;
         const receiverSocket = receiverUser.socket;
+        const senderName = senderUser.name;
+        const receiverName = receiverUser.name;
         const senderSDC = senderUser.SCD;
         const receiverSDC = receiverUser.SCD;
         const senderReceiverMapCreation = {
-            senderName: data.senderName,
-            receiverName: data.receiverName,
             senderUUID: data.senderUUID,
             receiverUUID: data.receiverUUID,
         };
         this.senderReceiverMapping.push(senderReceiverMapCreation);
         const receiverMessage = {
-            message: `You have been successfully connected with ${senderUser.name}`,
+            message: `You have been successfully connected with ${senderName}`,
             senderSDC,
         };
         const senderMessage = {
-            message: `You have been successfully connected with ${receiverUser.name}`,
+            message: `You have been successfully connected with ${receiverName}`,
             receiverSDC,
         };
         // Broadcast messages to sender and receiver
-        console.log(senderSocket);
         this.socketManager.brodcastToOne(senderSocket, JSON.stringify(senderMessage));
         this.socketManager.brodcastToOne(receiverSocket, JSON.stringify(receiverMessage));
+    }
+    handleDisconnect(message) {
+        const { senderUUID, receiverUUID } = message;
+        const UUID = senderUUID || receiverUUID;
+        if (UUID === undefined)
+            return;
+        const disconnectRole = senderUUID ? "sender" : "receiver";
+        // Use filter with a clearer condition
+        this.senderReceiverMapping = this.senderReceiverMapping.filter((data) => data[`${disconnectRole}UUID`] !== UUID);
+        // Use deleteUser with the UUID
+        this.socketManager.deleteUser(UUID);
     }
 }

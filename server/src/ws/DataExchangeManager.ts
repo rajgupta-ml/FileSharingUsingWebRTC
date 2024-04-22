@@ -1,6 +1,9 @@
 import { SocketManger } from "./SocketManager.js";
 import { receiverSelection, userData } from "../types/SocketMangerTypes.js";
-import { SenderReceiverMapping } from "../types/DataExchangeManagerTypes.js";
+import {
+  SenderReceiverMapping,
+  disconnectData,
+} from "../types/DataExchangeManagerTypes.js";
 
 export class DataExchangeManager {
   private socketManager: SocketManger;
@@ -51,8 +54,6 @@ export class DataExchangeManager {
     const receiverSDC = receiverUser.SCD;
 
     const senderReceiverMapCreation: SenderReceiverMapping = {
-      senderName,
-      receiverName,
       senderUUID: data.senderUUID,
       receiverUUID: data.receiverUUID,
     };
@@ -60,12 +61,12 @@ export class DataExchangeManager {
     this.senderReceiverMapping.push(senderReceiverMapCreation);
 
     const receiverMessage = {
-      message: `You have been successfully connected with ${senderUser.name}`,
+      message: `You have been successfully connected with ${senderName}`,
       senderSDC,
     };
 
     const senderMessage = {
-      message: `You have been successfully connected with ${receiverUser.name}`,
+      message: `You have been successfully connected with ${receiverName}`,
       receiverSDC,
     };
 
@@ -79,5 +80,18 @@ export class DataExchangeManager {
       receiverSocket,
       JSON.stringify(receiverMessage),
     );
+  }
+
+  handleDisconnect(message: disconnectData) {
+    const { senderUUID, receiverUUID } = message;
+    const UUID = senderUUID || receiverUUID;
+    if (UUID === undefined) return;
+    const disconnectRole = senderUUID ? "sender" : "receiver";
+    // Use filter with a clearer condition
+    this.senderReceiverMapping = this.senderReceiverMapping.filter(
+      (data) => data[`${disconnectRole}UUID`] !== UUID,
+    );
+    // Use deleteUser with the UUID
+    this.socketManager.deleteUser(UUID);
   }
 }
