@@ -13,3 +13,8 @@ export interface usersDataToBroadcast {
   name: string;
   socket: WebSocket;
 }
+
+export interface receiverSelection extends userData {
+  senderUUID: string;
+  receiverUUID: string;
+}
