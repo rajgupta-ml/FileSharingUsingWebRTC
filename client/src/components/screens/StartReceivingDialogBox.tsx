@@ -4,18 +4,24 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Input } from "../ui/input"
 import { Label } from "../ui/label"
 import React, {useState } from "react"
+import { useToast } from "../ui/use-toast"
+import { ToastAction } from "../ui/toast"
 
 const wait = () => new Promise((resolve) => setTimeout(resolve, 200));
 
 
 function StartReceivingDialogBox() {
-  
+  const {toast} = useToast();
   const [name, setName] = useState<string>("");
   const [isOpen, setIsOpen] = useState<Boolean>(false);
   const handleSubmit = (event : React.FormEvent<HTMLFormElement>) => {
+
     wait().then(() => setIsOpen(false));
     event.preventDefault();
-    console.log(name)
+    toast({
+        description: `Let ${name} kick off your file sharing journey with fileSwift.`,
+     
+      })
   }
   
   return (
