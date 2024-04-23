@@ -9,6 +9,7 @@ const dm = new DataExchangeManager(sm);
 wss.on("connection", (ws) => {
     sm.addUser(ws);
     ws.on("close", () => {
+        console.log(this);
         ws.send("You been disconnected abruptly!");
     });
     ws.on("message", (data) => {

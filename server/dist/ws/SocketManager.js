@@ -9,7 +9,11 @@ export class SocketManger {
     addUser(socket) {
         this.UUID = generateUUID();
         this.user.set(this.UUID, null);
-        this.brodcastToOne(socket, `Your UNNIQUE ID:  ${this.UUID}`);
+        const message = {
+            "action": "set-UUID",
+            "UUID": this.UUID
+        };
+        this.brodcastToOne(socket, JSON.stringify(message));
     }
     deleteUser(userId) {
         var _a;

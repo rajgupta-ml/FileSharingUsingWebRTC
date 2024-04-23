@@ -6,7 +6,6 @@ export const wsRouter = (ws, SocketManager, message, DataExchangeManager) => {
             DataExchangeManager.classifyUser(message);
             break;
         case "disconnet":
-            // SocketManager.deleteUser(ws, (message as userData).UUID);
             DataExchangeManager.handleDisconnect(message);
             break;
         case "selection-done":
