@@ -5,7 +5,7 @@ import { Input } from "../ui/input"
 import { Label } from "../ui/label"
 import React, {useState } from "react"
 import { useToast } from "../ui/use-toast"
-import { ToastAction } from "../ui/toast"
+
 
 const wait = () => new Promise((resolve) => setTimeout(resolve, 200));
 
